@@ -1,0 +1,39 @@
+{
+  "openapi": "3.0.3",
+  "info": { "title": "Open Meteo style forecast", "version": "1.0.0", "description": "Hand written test fixture in the shape of a public weather forecast API: hourly and daily forecast for a latitude and longitude." },
+  "servers": [{ "url": "https://api.weather-fixture.test/v1" }],
+  "paths": {
+    "/forecast": {
+      "get": {
+        "operationId": "getForecast",
+        "summary": "Weather forecast for coordinates",
+        "parameters": [
+          { "name": "latitude", "in": "query", "required": true, "schema": { "type": "number" } },
+          { "name": "longitude", "in": "query", "required": true, "schema": { "type": "number" } },
+          { "name": "hourly", "in": "query", "schema": { "type": "array", "items": { "type": "string" } } },
+          { "name": "X-Api-Key", "in": "header", "schema": { "type": "string" } }
+        ],
+        "responses": { "200": { "description": "ok", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Forecast" } } } } }
+      }
+    },
+    "/geocode": {
+      "post": {
+        "operationId": "geocode",
+        "summary": "Find coordinates for a place name",
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "name": { "type": "string" } }, "required": ["name"] } } } },
+        "responses": { "200": { "description": "ok" } }
+      }
+    },
+    "/stations/{id}": {
+      "parameters": [{ "name": "id", "in": "path", "schema": { "type": "string" } }],
+      "delete": { "summary": "Remove a saved station", "responses": { "204": { "description": "gone" } } },
+      "put": { "summary": "Save a station", "responses": { "200": { "description": "ok" } } }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Forecast": { "type": "object", "properties": { "hourly": { "$ref": "#/components/schemas/Series" }, "self": { "$ref": "#/components/schemas/Forecast" } } },
+      "Series": { "type": "object", "properties": { "time": { "type": "array", "items": { "type": "string" } }, "temperature_2m": { "type": "array", "items": { "type": "number" } } } }
+    }
+  }
+}

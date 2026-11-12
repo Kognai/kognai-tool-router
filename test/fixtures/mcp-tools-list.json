@@ -1,0 +1,22 @@
+{
+  "tools": [
+    {
+      "name": "search_articles",
+      "description": "Search PubMed for articles matching a query.",
+      "inputSchema": { "type": "object", "properties": { "query": { "type": "string" }, "max_results": { "type": "integer" } }, "required": ["query"] },
+      "annotations": { "readOnlyHint": true, "openWorldHint": true }
+    },
+    {
+      "name": "get_abstract",
+      "description": "Fetch the abstract of one article by PMID.",
+      "inputSchema": { "type": "object", "properties": { "pmid": { "type": "string" } }, "required": ["pmid"] },
+      "annotations": { "readOnlyHint": true }
+    },
+    {
+      "name": "delete_saved_search",
+      "description": "Delete a saved search.",
+      "inputSchema": { "type": "object", "properties": { "id": { "type": "string" } }, "required": ["id"] },
+      "annotations": { "destructiveHint": true, "readOnlyHint": true }
+    }
+  ]
+}

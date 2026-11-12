@@ -1,0 +1,38 @@
+{
+  "name": "@kognai/tool-router",
+  "version": "0.1.0",
+  "description": "Kognai ToolRouter: a tool catalog, classifier, eligibility filter and ranker that turns a task into a short list of tools an agent may use. No runtime dependencies.",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "agents",
+    "tool-routing",
+    "mcp",
+    "x402",
+    "skills",
+    "ai"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.13",
+    "tsx": "^4.23.13",
+    "typescript": "^5.7.0"
+  }
+}

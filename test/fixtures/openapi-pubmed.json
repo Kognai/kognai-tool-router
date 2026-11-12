@@ -1,0 +1,32 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "PubMed E utilities style", "version": "2.0", "description": "Hand written test fixture in the shape of NCBI E utilities: search PubMed and fetch summaries." },
+  "servers": [{ "url": "https://eutils.fixture.test/entrez/eutils" }],
+  "components": { "securitySchemes": { "apiKey": { "type": "apiKey", "in": "query", "name": "api_key" } } },
+  "paths": {
+    "/esearch.fcgi": {
+      "get": {
+        "operationId": "esearch",
+        "summary": "Search a database (pubmed) and return matching ids",
+        "parameters": [
+          { "name": "db", "in": "query", "required": true, "schema": { "type": "string", "enum": ["pubmed", "pmc"] } },
+          { "name": "term", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "retmax", "in": "query", "schema": { "type": "integer" } }
+        ]
+      }
+    },
+    "/esummary.fcgi": {
+      "get": {
+        "operationId": "esummary",
+        "summary": "Document summaries for a list of ids",
+        "parameters": [
+          { "name": "db", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "id", "in": "query", "required": true, "schema": { "type": "string" } }
+        ]
+      }
+    },
+    "/epost.fcgi": {
+      "post": { "operationId": "epost", "summary": "Upload a list of ids to the history server", "responses": { "200": { "description": "ok" } } }
+    }
+  }
+}

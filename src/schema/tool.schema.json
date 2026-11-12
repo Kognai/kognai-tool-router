@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kognai.ai/schemas/ktr/tool-record-v1.json",
+  "title": "KTR ToolRecord v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "id", "version", "name", "description_safe", "description_raw_sha256", "provider", "origin",
+    "category", "tags", "operations", "auth", "privacy_class", "business_tier", "regions", "networks", "pricing",
+    "success", "latency", "rate_limits", "health", "dependencies", "trust_state", "skill_ids", "last_validated",
+    "schema_hash", "implementation_hash", "lifecycle", "aliases", "same_as", "provenance", "ingested_at"
+  ],
+  "properties": {
+    "schema_version": { "enum": [1] },
+    "id": { "type": "string", "maxLength": 160, "pattern": "^tool:(kognai|mcp|openapi|x402|community|composio):[a-z0-9._-]+(/[a-z0-9._-]+)+$" },
+    "version": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "name": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "description_safe": { "type": "string", "maxLength": 512 },
+    "description_raw_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "provider": {
+      "type": "object", "additionalProperties": false, "required": ["name", "kognai_owned"],
+      "properties": { "name": { "type": "string", "maxLength": 120 }, "url": { "type": "string", "maxLength": 300 }, "kognai_owned": { "type": "boolean" } }
+    },
+    "origin": { "enum": ["kognai", "mcp", "openapi", "x402", "community", "composio"] },
+    "category": { "type": "string", "maxLength": 60 },
+    "tags": { "type": "array", "maxItems": 40, "items": { "type": "string", "maxLength": 60 } },
+    "operations": {
+      "type": "array", "maxItems": 200,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["op", "summary", "capabilities", "input_schema", "output_schema", "side_effects", "risk_classes", "scopes", "idempotent", "url_from_user"],
+        "properties": {
+          "op": { "type": "string", "pattern": "^[a-z0-9_.-]{1,64}$" },
+          "summary": { "type": "string", "maxLength": 200 },
+          "capabilities": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)+$" } },
+          "input_schema": { "type": "object" },
+          "output_schema": { "type": ["object", "null"] },
+          "side_effects": { "type": "array", "items": { "enum": ["none", "read", "write", "publish", "message", "payment", "delete", "infra"] } },
+          "risk_classes": { "type": "array", "items": { "enum": ["read_only", "network", "data_modification", "publish_or_message", "payment", "destructive", "sensitive_data", "privileged_infra"] } },
+          "scopes": { "type": "array", "items": { "type": "string", "maxLength": 200 } },
+          "idempotent": { "type": ["boolean", "null"] },
+          "url_from_user": { "type": "boolean" }
+        }
+      }
+    },
+    "auth": {
+      "type": "object", "additionalProperties": false, "required": ["kind"],
+      "properties": { "kind": { "enum": ["none", "oauth", "api_key", "x402", "internal"] }, "credential_ref": { "type": "string" }, "provider": { "type": "string" } }
+    },
+    "privacy_class": { "enum": ["public", "internal", "private", "sensitive"] },
+    "business_tier": { "enum": ["free", "citizen_plus", "citizen_pro", "citizen_pro_max", "enterprise", null] },
+    "regions": { "type": "array", "items": { "type": "string", "maxLength": 3 } },
+    "networks": { "type": "array", "items": { "enum": ["base", "base-sepolia", "solana", "solana-devnet", "offchain"] } },
+    "pricing": {
+      "type": "object", "additionalProperties": false, "required": ["model", "source"],
+      "properties": {
+        "model": { "enum": ["free", "per_call", "per_unit", "unknown"] },
+        "price": {
+          "type": "object", "additionalProperties": false, "required": ["amount_micro", "currency"],
+          "properties": {
+            "amount_micro": { "type": "string", "pattern": "^[0-9]{1,30}$" },
+            "currency": { "enum": ["USDC", "KGC", "USD"] },
+            "network": { "enum": ["base", "base-sepolia", "solana", "solana-devnet", "offchain"] }
+          }
+        },
+        "unit": { "type": "string", "maxLength": 40 },
+        "source": { "enum": ["measured", "provider", "cfo_price_book", "unknown"] },
+        "observed_at": { "type": "string" }
+      }
+    },
+    "success": {
+      "type": "object", "additionalProperties": false,
+      "required": ["exec_ok", "exec_n", "verified_ok", "verified_n", "distinct_principals", "window_days"],
+      "properties": {
+        "exec_ok": { "type": "integer" }, "exec_n": { "type": "integer" }, "verified_ok": { "type": "integer" },
+        "verified_n": { "type": "integer" }, "distinct_principals": { "type": "integer" }, "window_days": { "type": "integer" }
+      }
+    },
+    "latency": {
+      "type": "object", "additionalProperties": false, "required": ["p50_ms", "p95_ms", "n"],
+      "properties": { "p50_ms": { "type": ["number", "null"] }, "p95_ms": { "type": ["number", "null"] }, "n": { "type": "integer" } }
+    },
+    "rate_limits": { "type": ["object", "null"] },
+    "health": {
+      "type": "object", "additionalProperties": false, "required": ["state", "checked_at", "source"],
+      "properties": {
+        "state": { "enum": ["up", "degraded", "down", "unknown"] },
+        "checked_at": { "type": ["string", "null"] },
+        "source": { "enum": ["probe", "experience", "none"] }
+      }
+    },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "trust_state": { "enum": ["quarantined", "reviewed", "verified", "deprecated", "revoked"] },
+    "skill_ids": { "type": "array", "items": { "type": "string" } },
+    "last_validated": { "type": ["string", "null"] },
+    "schema_hash": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "implementation_hash": { "type": ["string", "null"] },
+    "lifecycle": { "enum": ["draft", "active", "deprecated", "retired"] },
+    "aliases": { "type": "array", "items": { "type": "string", "maxLength": 160 } },
+    "same_as": { "type": "array", "items": { "type": "string" } },
+    "product_id": { "type": "string" },
+    "aiax_ready": { "type": "boolean" },
+    "provenance": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["source", "source_ref", "retrieved_at", "licence", "adapter", "adapter_version", "snapshot_sha256"],
+        "properties": {
+          "source": { "type": "string" }, "source_ref": { "type": "string", "maxLength": 400 }, "retrieved_at": { "type": "string" },
+          "licence": { "type": ["string", "null"] }, "adapter": { "type": "string" }, "adapter_version": { "type": "string" },
+          "snapshot_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "ingested_at": { "type": "string" }
+  }
+}

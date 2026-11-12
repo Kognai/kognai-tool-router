@@ -1,0 +1,21 @@
+{
+  "note": "Shapes of the Golden Kog intel test fixtures (scripts/labor/golden-kog/__tests__/intel.test.ts): PayAI v2 with CAIP networks, v1 with maxAmountRequired and network names, CDP Bazaar input, and one Golden Kog normalised resource. Hosts are .example; payees are placeholders.",
+  "raw": [
+    { "resource": "https://holders.example/v1/solana/holders", "x402Version": 2, "description": "Top holders and holder distribution for a Solana token mint (SPL)",
+      "accepts": [{ "scheme": "exact", "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp", "asset": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", "amount": "5000", "payTo": "PAYEE" }],
+      "extensions": { "bazaar": { "info": { "input": { "method": "POST", "bodyType": "json", "body": { "mint": { "type": "string", "description": "token mint" } } } }, "schema": { "properties": { "input": { "properties": { "body": { "required": ["mint"] } } } } } } } },
+    { "resource": "https://news.example/crypto-news", "x402Version": 1, "description": "Crypto news headlines search for a token",
+      "accepts": [{ "scheme": "exact", "network": "base", "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", "maxAmountRequired": "1000", "payTo": "0xPAYEE" }] },
+    { "resource": "https://news.example/crypto-news", "x402Version": 2, "description": "Same path, a second listing", "accepts": [{ "scheme": "exact", "network": "eip155:8453", "amount": "2000", "payTo": "0xP" }, { "scheme": "exact", "network": "eip155:8453", "amount": "1500", "payTo": "0xP" }] },
+    { "resource": "http://insecure.example/x", "accepts": [] },
+    { "resource": "https://free.example/ping", "description": "No offer at all", "accepts": [] }
+  ],
+  "goldenKog": {
+    "resources": [
+      { "id": "bb357d78516933fb", "url": "https://mpp.example/trenches/new-tokens", "method": "GET", "source": "payai", "vendor": "mpp.example",
+        "description": "Real time token launches with holder concentration.", "topics": ["holders"],
+        "offers": [{ "scheme": "exact", "network": "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp", "asset": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v", "amount": "80000", "payTo": "PAYEE" }],
+        "priceUsdc": 0.08, "networks": ["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"], "payees": ["PAYEE"], "input": { "method": "GET", "required": [] }, "x402Version": 1 }
+    ]
+  }
+}

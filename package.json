@@ -34,5 +34,13 @@
     "@types/node": "^22.19.13",
     "tsx": "^4.23.13",
     "typescript": "^5.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkinGem/kognai-tool-router.git"
+  },
+  "homepage": "https://github.com/SkinGem/kognai-tool-router#readme",
+  "bugs": {
+    "url": "https://github.com/SkinGem/kognai-tool-router/issues"
   }
 }

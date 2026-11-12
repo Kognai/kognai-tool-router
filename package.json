@@ -37,10 +37,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SkinGem/kognai-tool-router.git"
+    "url": "git+https://github.com/Kognai/kognai-tool-router.git"
   },
-  "homepage": "https://github.com/SkinGem/kognai-tool-router#readme",
+  "homepage": "https://github.com/Kognai/kognai-tool-router#readme",
   "bugs": {
-    "url": "https://github.com/SkinGem/kognai-tool-router/issues"
+    "url": "https://github.com/Kognai/kognai-tool-router/issues"
   }
 }

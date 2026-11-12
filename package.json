@@ -1,6 +1,6 @@
 {
   "name": "@kognai/tool-router",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Kognai ToolRouter: a tool catalog, classifier, eligibility filter and ranker that turns a task into a short list of tools an agent may use. No runtime dependencies.",
   "license": "MIT",
   "main": "dist/index.js",
